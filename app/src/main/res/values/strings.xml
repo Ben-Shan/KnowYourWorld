@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Know Your World</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="welcome">Hi! And Welcome to Where in the World an app that makes its easy for you to learn the location of any country in the world or maybe even discover a country you never knew existed! To access
+        a countrys page simply tap on the country from the list and it will take you to the page, from here you can tap Find on Map this will take you to Google Maps and will automatically find the country for you.
+        You can also create a list of countries you want to visit for easy recall.\n To do this simply hold down on the desired country and it will add to the list, accessed by the star in the top corner.
+        To remove from the list simply enter into your Visit List and hold down on the country you want to remove!\n Enjoy Discovery!</string>
+    <string name="welcomeTitle">Where in the World!</string>
+
+</resources>

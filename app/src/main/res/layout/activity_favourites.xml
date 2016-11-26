@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:scaleType = "centerCrop">
+
+
+    <ListView android:id="@+id/listView1" android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/backButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_gravity="left"
+        android:layout_height="wrap_content"
+        android:id="@+id/backButton"
+        android:src="@mipmap/ic_back"
+        android:padding="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Travel List"
+        android:textSize="20sp"
+        android:id="@+id/textView"
+        android:layout_above="@+id/listView1"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
