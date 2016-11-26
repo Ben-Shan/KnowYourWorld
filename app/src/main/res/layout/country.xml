@@ -58,9 +58,17 @@
         android:id="@+id/fPic"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="60dp"
-        android:layout_marginEnd="60dp" />
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/fnote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/fPic"
+        android:layout_toStartOf="@+id/fPic"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp" />
 
 
 </RelativeLayout>

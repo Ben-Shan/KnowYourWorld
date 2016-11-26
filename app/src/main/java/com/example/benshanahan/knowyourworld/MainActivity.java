@@ -21,6 +21,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import static com.example.benshanahan.knowyourworld.DbAdapter.KEY_FAV;
+
 //import static com.example.benshanahan.knowyourworld.DbAdapter.KEY_FAVOURITED;
 
 
@@ -71,14 +73,27 @@ public class MainActivity extends Activity {
         String[] columns = new String[] {
                 DbAdapter.KEY_CODE,
                 DbAdapter.KEY_NAME,
-               // DbAdapter.KEY_FAVOURITED,
+                DbAdapter.KEY_FAV,
         };
+/*
+        ImageView icon=(ImageView) findViewById(R.id.fPic);
 
+        if (KEY_FAV == "active"){
+            icon.setImageResource(R.mipmap.ic_favourites);
+        }
+        else{
+            icon.setImageResource(R.mipmap.ic_notfav);
+        }
+*/
         // the XML defined views which the data will be bound to
         int[] to = new int[] {
                 R.id.code,
                 R.id.name,
+                R.id.fnote,
+
         };
+
+
 
 
         // create the adapter using the cursor pointing to the desired data
@@ -127,12 +142,21 @@ public class MainActivity extends Activity {
             public boolean onItemLongClick(AdapterView<?> av, View view,int pos, long id)
             {
 
-                Toast.makeText(getApplicationContext(), "Added to Travel List", Toast.LENGTH_LONG).show();
+
 
                 int position = av.getPositionForView(view); //saves the position for the selected item
                 Log.d("arrayList number sent:",String.valueOf(position)); //logcat message
-
+                Cursor mycursor = (Cursor) av.getItemAtPosition(pos);
+                String con = mycursor.getString(2);
+                Log.d("view number sent:",String.valueOf(view));
+                Log.d("arrayList number sent:",String.valueOf(position));
+                Toast.makeText(getApplicationContext(), "Added " + con + " to Travel List", Toast.LENGTH_LONG).show();
                 dbHelper.insert_f(position);//calls the insert function, in DbAdap
+                //dbHelper.update(position, "favourited");
+
+                finish();
+                startActivity(getIntent());
+                finish();
 
                 return true;
 

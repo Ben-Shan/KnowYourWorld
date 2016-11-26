@@ -8,9 +8,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +34,10 @@ public class CountryPage extends Activity {
     public String CounName; //needs to be declared publically
     public String CounCode;
     public String CounCodeLower;
+    public String CounNameR;
+    public String refineSearchtext;
+    public EditText refineSearch;
+
     public String FlagURL;
     public String url;
 
@@ -79,6 +85,11 @@ public class CountryPage extends Activity {
 
 
 
+        //refineSearchtext = null;
+
+
+
+
         TextView CNameTextView = (TextView) findViewById(R.id.CName); //displays country name
         CNameTextView.setText(CounName);
 
@@ -87,8 +98,27 @@ public class CountryPage extends Activity {
             public void onClick(View v) {
 
                 finish();
+
+
             }
         });
+/*
+        final EditText refineSearch = new EditText(CountryPage.this);
+        //EditText refineSearch = (EditText) findViewById(R.id.refine);
+        refineSearch.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        //CounNameR = refineSearchtext + " " + CounName;
+
+        //String selection = refineSearch.getText().toString();
+        String refineSearchtext = refineSearch.getText().toString();
+        CounNameR = refineSearchtext.concat(CounName);
+        Log.d("CounNameR",CounNameR);
+        Log.d("refineSearchtext",refineSearchtext);
+*/
+
+        refineSearch = (EditText)findViewById(R.id.refine);
+
+
+
 
 
 
@@ -96,7 +126,21 @@ public class CountryPage extends Activity {
         homePicsButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
 
-                String uri = String.format(Locale.ENGLISH, "https://www.google.ie/maps/place/%s",CounName);
+
+
+                refineSearchtext = refineSearch.getText().toString();
+
+                Toast.makeText(getApplicationContext(),
+                        refineSearchtext, Toast.LENGTH_SHORT).show();
+                String CounNameRefine = " " + CounName;
+
+                CounNameR = refineSearchtext.concat(CounNameRefine);
+
+                Toast.makeText(getApplicationContext(),
+                        CounNameR, Toast.LENGTH_SHORT).show();
+
+                String uri = String.format(Locale.ENGLISH, "https://www.google.ie/maps/place/%s",CounNameR);
+
                 //on Button click goes to URL link, %s is replaced with CounName which is sent when country is chosen
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 startActivity(intent);
@@ -106,15 +150,5 @@ public class CountryPage extends Activity {
 
 
     }
-    /*
-    public static Drawable LoadImageFromWebOperations(String String) {
 
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "http://flagpedia.net/data/flags/normal/" + CounCodeLower + ".png");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    */
 }

@@ -17,6 +17,8 @@ public class Welcome extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+
+
         TextView welcome = (TextView) findViewById(R.id.welcometext); //post welcome message
         TextView welcomeTitle = (TextView) findViewById(R.id.welcomeTitle);//posts welcome title
 

@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
@@ -60,6 +61,7 @@ public class Favourites extends Activity {
                 finish();
             }
         });
+
 
     }
 
@@ -127,13 +129,20 @@ public class Favourites extends Activity {
             public boolean onItemLongClick(AdapterView<?> av, View view,int pos, long id)
             {
 
-                Toast.makeText(getApplicationContext(), "Deleted to Travel List", Toast.LENGTH_LONG).show();
+
 
                 int position = av.getPositionForView(view);
+                Cursor mycursor = (Cursor) av.getItemAtPosition(pos);
+                String con = mycursor.getString(2);
                 Log.d("arrayList number sent:",String.valueOf(position));
+                Log.d("id",String.valueOf(id));
 
-                dbHelper.delete(id);
+                dbHelper.delete(id,con);
+                dbHelper.updateDelete(con);
+                Toast.makeText(getApplicationContext(), "Deleted " + con + " from Travel List", Toast.LENGTH_LONG).show();
                 refresh();
+
+
 
                 return true;
             }

@@ -32,6 +32,7 @@ public class DbAdapter {
     public static final String KEY_ROWID = "_id";
     public static final String KEY_CODE = "code";
     public static final String KEY_NAME = "name";
+    public static final String KEY_FAV = "active";
     //private static final Boolean KEY_FAVOURITED = FALSE;
     //public static final String KEY_FAVOURITED = "0";
 
@@ -42,7 +43,7 @@ public class DbAdapter {
     private SQLiteDatabase mDb;
 
 
-    private static final String DATABASE_NAME = "WhereInTheWorld";
+    private static final String DATABASE_NAME = "WhereInTheWorld4";
     private static final String SQLITE_TABLE = "Country";
     private static final String SQLITE_TABLE_F = "Favourites";
     private static final int DATABASE_VERSION = 2;
@@ -53,6 +54,7 @@ public class DbAdapter {
     public static final String KEY_ROWID_F = "_id";
     public static final String KEY_CODE_F = "code";
     public  static final String KEY_NAME_F = "name";
+    public static final String KEY_DESC_F = "description";
 
     private final Context context;
 
@@ -62,6 +64,7 @@ public class DbAdapter {
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
                     KEY_CODE + "," +
                     KEY_NAME + "," +
+                    KEY_FAV + "," +
                     //KEY_FAVOURITED + "," +
                     " UNIQUE (" + KEY_CODE +"));";
 
@@ -70,6 +73,7 @@ public class DbAdapter {
                     KEY_ROWID_F + " integer PRIMARY KEY autoincrement," +
                     KEY_CODE_F + "," +
                     KEY_NAME_F + "," +
+                    KEY_DESC_F + "," +
                     //KEY_FAVOURITED + "," +
                     " UNIQUE (" + KEY_CODE_F +"));";
 
@@ -124,25 +128,43 @@ public class DbAdapter {
         }
     }
 
-    public long create(String code, String name/*, Boolean favourited*/) {
+    public long create(String code, String name, String favourite) {
     //populates the 1st table, requires code and name to be inputted
         //1st table is populated from the start and so initial values are entered
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_CODE, code);
         initialValues.put(KEY_NAME, name);
-        //initialValues.put(KEY_FAVOURITED, favourited);
+        initialValues.put(KEY_FAV, favourite);
 
 
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
 
-    public boolean delete(long id) {
+    public boolean delete(long id, String na) {
+
+        //int du = na+1;
     //used to delete an item from array
         String string =String.valueOf(id);
         //item to be deleted is read in from where its being called from and converted to string
+        Log.d("country to delete", na);
         mDb.execSQL("DELETE FROM "+ SQLITE_TABLE_F + " WHERE _id = '" + string + "'");//SQL required to delete desired item
+
+        mDb.execSQL("UPDATE " + SQLITE_TABLE +" SET " + KEY_FAV + " = ' ' WHERE name = '" + na + "';" );
         return true;
+    }
+
+    public void update(int i){
+
+        int updated = i+1;
+        mDb.execSQL("UPDATE "+ SQLITE_TABLE +" SET " + KEY_FAV + " = 'favourited' WHERE _id = " + updated + ";");
+    }
+
+    public void updateDelete(String country){
+
+        //int updated = i+1;
+        mDb.execSQL("UPDATE "+ SQLITE_TABLE +" SET " + KEY_FAV + " = ' ' WHERE name = '" + country + "';");
+
     }
 /*
     public Cursor fetchCountriesByName(String inputText) throws SQLException {
@@ -170,7 +192,7 @@ public class DbAdapter {
     public Cursor fetch() {
 
         Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID,
-                        KEY_CODE, KEY_NAME/*, KEY_FAVOURITED*/},
+                        KEY_CODE, KEY_NAME, KEY_FAV},
                 null, null, null, null, null);
 
         if (mCursor != null) {
@@ -223,20 +245,19 @@ public class DbAdapter {
         int i=0;
         while(i<CArray.length)
         {
-            create(COArray[i],CArray[i]/*,FALSE*/);
+            create(COArray[i],CArray[i]," ");
             i++;
             //loops till end of arrays entering in information into database from arrays
         }
     }
 
     public void insert_f(int i) {
-    //desired item to be entered is sent into function
-        String [] CArray = context.getResources().getStringArray(R.array.country_array);
-        String [] COArray = context.getResources().getStringArray(R.array.code_array);
-        //arrays are called
 
-            mDb.execSQL("INSERT INTO "+SQLITE_TABLE_F+"(code,name) VALUES ('" + COArray[i] + "','" + CArray[i] + "')");
-        //SQL code used to enter specific item into favourites table
+            int inc = i+1;
+            Log.d("i in insert_f",String.valueOf(i));
+            mDb.execSQL("INSERT INTO " + SQLITE_TABLE_F + " (code,name) SELECT code,name FROM " + SQLITE_TABLE + " WHERE _id = '" + inc + "'");
+            update(i);
+
 
     }
 
