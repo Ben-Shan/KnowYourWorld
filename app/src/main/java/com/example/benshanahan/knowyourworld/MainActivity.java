@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
         {
-
+        //When the user holds down the item
 
             @Override
             public boolean onItemLongClick(AdapterView<?> av, View view,int pos, long id)
@@ -129,22 +129,22 @@ public class MainActivity extends Activity {
 
                 Toast.makeText(getApplicationContext(), "Added to Travel List", Toast.LENGTH_LONG).show();
 
-                int position = av.getPositionForView(view);
-                Log.d("arrayList number sent:",String.valueOf(position));
+                int position = av.getPositionForView(view); //saves the position for the selected item
+                Log.d("arrayList number sent:",String.valueOf(position)); //logcat message
 
-                dbHelper.insert_f(position);
+                dbHelper.insert_f(position);//calls the insert function, in DbAdap
 
                 return true;
 
             }
 
         });
-
+/*
         dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
                 return dbHelper.fetchCountriesByName(constraint.toString());
             }
         });
-
+*/
     }
 }

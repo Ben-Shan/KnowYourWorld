@@ -126,14 +126,6 @@ public class Favourites extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> av, View view,int pos, long id)
             {
-            /*
-                Cursor mycursor = (Cursor) av.getItemAtPosition(pos);
-                String selection = mycursor.getString(1);
-                String res=String.valueOf(((Integer.parseInt(selection))));
-                Log.d("SLV",res);
-                db.delete(id);
-                return true;
-                */
 
                 Toast.makeText(getApplicationContext(), "Deleted to Travel List", Toast.LENGTH_LONG).show();
 
@@ -147,13 +139,13 @@ public class Favourites extends Activity {
             }
         });
 
-
+/*
         dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
                 return dbHelper.fetchCountriesByNameF(constraint.toString());
             }
         });
-
+*/
     }
 
     private void refresh()
@@ -161,6 +153,7 @@ public class Favourites extends Activity {
         Favourites.this.finish();
         Intent refresh=new Intent(this,Favourites.class);
         startActivity(refresh);
+        //deletes, then recalls intent to update list
     }
 /*
     void deleteItem(long item)
