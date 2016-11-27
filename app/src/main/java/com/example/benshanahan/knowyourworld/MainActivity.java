@@ -21,9 +21,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-import static com.example.benshanahan.knowyourworld.DbAdapter.KEY_FAV;
-
-//import static com.example.benshanahan.knowyourworld.DbAdapter.KEY_FAVOURITED;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 
 public class MainActivity extends Activity {
@@ -40,7 +39,6 @@ public class MainActivity extends Activity {
         db=new DbAdapter(this);
 
         dbHelper = new DbAdapter(this);
-        //dbHelper = new DbAdapter(this);
         dbHelper.open();
 
         dbHelper.insert();
@@ -50,6 +48,7 @@ public class MainActivity extends Activity {
 
         Intent myIntent = new Intent(MainActivity.this, Welcome.class);
         startActivity(myIntent);
+
 
         ImageButton Favourites = (ImageButton) findViewById(R.id.favouritesButton);
         Favourites.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +66,7 @@ public class MainActivity extends Activity {
     private void displayListView() {
 
 
-        Cursor cursor = dbHelper.fetch();
+        Cursor cursor = dbHelper.fetch();//'fetches' database info from database class
 
         // The desired columns to be bound
         String[] columns = new String[] {
@@ -75,16 +74,7 @@ public class MainActivity extends Activity {
                 DbAdapter.KEY_NAME,
                 DbAdapter.KEY_FAV,
         };
-/*
-        ImageView icon=(ImageView) findViewById(R.id.fPic);
 
-        if (KEY_FAV == "active"){
-            icon.setImageResource(R.mipmap.ic_favourites);
-        }
-        else{
-            icon.setImageResource(R.mipmap.ic_notfav);
-        }
-*/
         // the XML defined views which the data will be bound to
         int[] to = new int[] {
                 R.id.code,
@@ -92,8 +82,6 @@ public class MainActivity extends Activity {
                 R.id.fnote,
 
         };
-
-
 
 
         // create the adapter using the cursor pointing to the desired data
@@ -134,6 +122,7 @@ public class MainActivity extends Activity {
             }
         });
 
+        //listener for long click
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
         {
         //When the user holds down the item
@@ -143,17 +132,16 @@ public class MainActivity extends Activity {
             {
 
 
-
                 int position = av.getPositionForView(view); //saves the position for the selected item
                 Log.d("arrayList number sent:",String.valueOf(position)); //logcat message
-                Cursor mycursor = (Cursor) av.getItemAtPosition(pos);
-                String con = mycursor.getString(2);
+                Cursor mycursor = (Cursor) av.getItemAtPosition(pos); //locates the specific item which is clicked and stored in a cursor
+                String con = mycursor.getString(2); //saves the name of the item in a string, getString(2)= the name (0=id, 1=code)
                 Log.d("view number sent:",String.valueOf(view));
                 Log.d("arrayList number sent:",String.valueOf(position));
                 Toast.makeText(getApplicationContext(), "Added " + con + " to Travel List", Toast.LENGTH_LONG).show();
                 dbHelper.insert_f(position);//calls the insert function, in DbAdap
-                //dbHelper.update(position, "favourited");
 
+                //refreshes activity to update list, displays favourited message
                 finish();
                 startActivity(getIntent());
                 finish();
@@ -163,12 +151,6 @@ public class MainActivity extends Activity {
             }
 
         });
-/*
-        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-            public Cursor runQuery(CharSequence constraint) {
-                return dbHelper.fetchCountriesByName(constraint.toString());
-            }
-        });
-*/
+
     }
 }

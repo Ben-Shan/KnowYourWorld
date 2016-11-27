@@ -75,7 +75,6 @@ public class Favourites extends Activity {
         String[] columns = new String[] {
                 DbAdapter.KEY_CODE_F,
                 DbAdapter.KEY_NAME_F,
-                // DbAdapter.KEY_FAVOURITED,
         };
 
         // the XML defined views which the data will be bound to
@@ -138,7 +137,7 @@ public class Favourites extends Activity {
                 Log.d("id",String.valueOf(id));
 
                 dbHelper.delete(id,con);
-                dbHelper.updateDelete(con);
+
                 Toast.makeText(getApplicationContext(), "Deleted " + con + " from Travel List", Toast.LENGTH_LONG).show();
                 refresh();
 
@@ -148,13 +147,6 @@ public class Favourites extends Activity {
             }
         });
 
-/*
-        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-            public Cursor runQuery(CharSequence constraint) {
-                return dbHelper.fetchCountriesByNameF(constraint.toString());
-            }
-        });
-*/
     }
 
     private void refresh()
@@ -164,44 +156,5 @@ public class Favourites extends Activity {
         startActivity(refresh);
         //deletes, then recalls intent to update list
     }
-/*
-    void deleteItem(long item)
-    {
-        android.support.v7.app.AlertDialog.Builder builder1 = new android.support.v7.app.AlertDialog.Builder(this);
-        final long valuetodelete=item;
-        builder1.setMessage("Do you really want to delete value: " + valuetodelete);
-        builder1.setCancelable(true);
 
-        builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int id)
-            {
-                DbAdapter db=new DbAdapter(getApplicationContext());
-                try
-                {
-                    db.open();
-                    db.delete(valuetodelete);
-                    Toast.makeText(Favourites.this, "Value: " + valuetodelete + " was deleted.", Toast.LENGTH_LONG).show();
-                    //refresh();
-                }
-                catch (Exception ex)
-                {
-                    Log.d("SensitvityLV","OPEN FAILED");
-                }
-            }
-        });
-
-        builder1.setNegativeButton("No",
-                new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        dialog.cancel();
-                    }
-                });
-
-        android.support.v7.app.AlertDialog alert11 = builder1.create();
-        alert11.show();
-    }
-    */
 }

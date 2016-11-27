@@ -13,19 +13,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.lang.Boolean.FALSE;
-import static java.sql.Types.NULL;
 
 public class DbAdapter {
     //items of 1st table in database
@@ -33,8 +21,7 @@ public class DbAdapter {
     public static final String KEY_CODE = "code";
     public static final String KEY_NAME = "name";
     public static final String KEY_FAV = "active";
-    //private static final Boolean KEY_FAVOURITED = FALSE;
-    //public static final String KEY_FAVOURITED = "0";
+
 
 
 
@@ -65,7 +52,6 @@ public class DbAdapter {
                     KEY_CODE + "," +
                     KEY_NAME + "," +
                     KEY_FAV + "," +
-                    //KEY_FAVOURITED + "," +
                     " UNIQUE (" + KEY_CODE +"));";
 
     private static final String DATABASE_CREATE_F =
@@ -74,19 +60,20 @@ public class DbAdapter {
                     KEY_CODE_F + "," +
                     KEY_NAME_F + "," +
                     KEY_DESC_F + "," +
-                    //KEY_FAVOURITED + "," +
                     " UNIQUE (" + KEY_CODE_F +"));";
 
 
 
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
+        //a class that has the functionality of the SQLiteOpenHelper Lib
+        //a library which allows for database creation and management
 
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
-
-        //String[] CArray;
+        //sets context to these variables, the bracketed items are now the class's 'context',
+        // instead of continually calling themthe user can just use context
 
 
         @Override
@@ -115,19 +102,21 @@ public class DbAdapter {
     public DbAdapter(Context context) {
         this.context = context;
     }
+    //DbAdapter now holds the information the information declared earlier
 
     public DbAdapter open() throws SQLException {
-        mDbHelper = new DatabaseHelper(context);
-        mDb = mDbHelper.getWritableDatabase();
+        //opens the previously declared Database, using context
+        mDbHelper = new DatabaseHelper(context);//mDbHelper now has the ability (through SQLiteOpenHelper) to manage our database (through context)
+        mDb = mDbHelper.getWritableDatabase();//opens database to be read or written
         return this;
     }
-
+/*
     public void close() {
         if (mDbHelper != null) {
             mDbHelper.close();
         }
     }
-
+*/
     public long create(String code, String name, String favourite) {
     //populates the 1st table, requires code and name to be inputted
         //1st table is populated from the start and so initial values are entered
@@ -137,96 +126,46 @@ public class DbAdapter {
         initialValues.put(KEY_FAV, favourite);
 
 
-        return mDb.insert(SQLITE_TABLE, null, initialValues);
+        return mDb.insert(SQLITE_TABLE, null, initialValues);//calls insert function and passes table and values in
     }
 
 
     public boolean delete(long id, String na) {
 
-        //int du = na+1;
     //used to delete an item from array
         String string =String.valueOf(id);
         //item to be deleted is read in from where its being called from and converted to string
         Log.d("country to delete", na);
         mDb.execSQL("DELETE FROM "+ SQLITE_TABLE_F + " WHERE _id = '" + string + "'");//SQL required to delete desired item
 
-        mDb.execSQL("UPDATE " + SQLITE_TABLE +" SET " + KEY_FAV + " = ' ' WHERE name = '" + na + "';" );
+        mDb.execSQL("UPDATE " + SQLITE_TABLE +" SET " + KEY_FAV + " = ' ' WHERE name = '" + na + "';" ); //updates the 'favourited' tag of the item on the original list
         return true;
     }
 
     public void update(int i){
 
         int updated = i+1;
-        mDb.execSQL("UPDATE "+ SQLITE_TABLE +" SET " + KEY_FAV + " = 'favourited' WHERE _id = " + updated + ";");
+        mDb.execSQL("UPDATE "+ SQLITE_TABLE +" SET " + KEY_FAV + " = 'favourited' WHERE _id = " + updated + ";");//adds a 'favourited' tag to the item in the original list
     }
 
-    public void updateDelete(String country){
-
-        //int updated = i+1;
-        mDb.execSQL("UPDATE "+ SQLITE_TABLE +" SET " + KEY_FAV + " = ' ' WHERE name = '" + country + "';");
-
-    }
-/*
-    public Cursor fetchCountriesByName(String inputText) throws SQLException {
-        Log.w(TAG, inputText);
-        Cursor mCursor = null;
-        if (inputText == null  ||  inputText.length () == 0)  {
-            mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID,
-                            KEY_CODE, KEY_NAME/},
-                    null, null, null, null, null);
-
-        }
-        else {
-            mCursor = mDb.query(true, SQLITE_TABLE, new String[] {KEY_ROWID,
-                            KEY_CODE, KEY_NAME},
-                    KEY_NAME + " like '%" + inputText + "%'", null,
-                    null, null, null, null);
-        }
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-
-    }
-*/
+    //function called to send information in database to whereever its needed
     public Cursor fetch() {
 
         Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID,
                         KEY_CODE, KEY_NAME, KEY_FAV},
-                null, null, null, null, null);
+                null, null, null, null, null);//layout of database, will be filled later, currently empty
 
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
         return mCursor;
     }
-/*
-    public Cursor fetchCountriesByNameF(String inputText) throws SQLException {
-        Log.w(TAG, inputText);
-        Cursor mCursor = null;
-        if (inputText == null  ||  inputText.length () == 0)  {
-            mCursor = mDb.query(SQLITE_TABLE_F, new String[] {KEY_ROWID_F,
-                            KEY_CODE_F, KEY_NAME_F},
-                    null, null, null, null, null);
 
-        }
-        else {
-            mCursor = mDb.query(true, SQLITE_TABLE_F, new String[] {KEY_ROWID_F,
-                            KEY_CODE_F, KEY_NAME_F},
-                    KEY_NAME_F + " like '%" + inputText + "%'", null,
-                    null, null, null, null);
-        }
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-
-    }
-*/
+    //same as fetch() but for the favourites, uses fav table, which is selective
     public Cursor fetchF() {
 
         Cursor mCursor = mDb.query(SQLITE_TABLE_F, new String[] {KEY_ROWID_F,
-                        KEY_CODE_F, KEY_NAME_F/*, KEY_FAVOURITED*/},
+                        KEY_CODE_F, KEY_NAME_F},
                 null, null, null, null, null);
 
         if (mCursor != null) {
@@ -255,8 +194,10 @@ public class DbAdapter {
 
             int inc = i+1;
             Log.d("i in insert_f",String.valueOf(i));
+            //inserts into favourite table (code variable and name variable) selected from original table from the column
+            // where id is the same as the one sent in from whereever the function is being called from
             mDb.execSQL("INSERT INTO " + SQLITE_TABLE_F + " (code,name) SELECT code,name FROM " + SQLITE_TABLE + " WHERE _id = '" + inc + "'");
-            update(i);
+            update(i);//calls update function to add the 'favourited' tag to the selected country
 
 
     }

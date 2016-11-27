@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:scaleType = "centerCrop">
+    android:scaleType = "centerCrop"
+    android:background="#24282d">
 
     <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -11,6 +12,7 @@
         android:text="Countries of the World"
         android:textSize="20sp"
         android:id="@+id/textView"
+        android:textColor="#ffffff"
         />
 
 
@@ -25,7 +27,7 @@
         android:layout_gravity="right"
         android:layout_height="wrap_content"
         android:id="@+id/favouritesButton"
-        android:src="@mipmap/ic_favourites"
+        android:src="@mipmap/ic_fav_dark"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

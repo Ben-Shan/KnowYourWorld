@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#24282d">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/CName"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:textAlignment="center"
         android:textSize="32sp"
         android:textIsSelectable="true"
         android:paddingTop="10dp"
         android:layout_toRightOf="@+id/backButton"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/errorflag"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:textAlignment="center"
-        android:textSize="32sp"
-        android:textIsSelectable="true"
-        android:paddingTop="20dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:layout_toEndOf="@+id/CName"
-        android:layout_toRightOf="@+id/CName"
-        android:layout_centerHorizontal="true"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-
         android:text="Find on Map"
+        android:textColor="#24282d"
+        android:padding="10dp"
+        android:background="#ffffff"
         android:id="@+id/FindButton"
         android:layout_marginBottom="28dp"
         android:layout_alignParentBottom="true"
@@ -48,7 +34,7 @@
         android:layout_gravity="left"
         android:layout_height="wrap_content"
         android:id="@+id/backButton"
-        android:src="@mipmap/ic_back"
+        android:src="@mipmap/ic_back_dark"
         android:padding="0dp"
         style="?android:attr/borderlessButtonStyle"
         android:layout_alignParentTop="true"
@@ -60,19 +46,49 @@
         android:layout_height="wrap_content"
         android:id="@+id/CCode"
         android:layout_alignTop="@+id/errorflag"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="55dp" />
+        android:layout_marginTop="55dp"
+        android:layout_centerInParent="true"
+        />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textCapWords"
         android:ems="10"
-        android:layout_below="@+id/errorflag"
+        android:textColor="#ffffff"
+        android:id="@+id/refine"
+        android:layout_above="@+id/FindButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="97dp"
-        android:id="@+id/refine" />
+        android:layout_marginBottom="69dp" />
+
+    <TextView
+        android:text="@string/refineInstruct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="29dp"
+        android:id="@+id/refineInstruct"
+        android:textColor="#D3D3D3"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_above="@+id/refine"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/errorflag"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:textIsSelectable="true"
+        android:paddingTop="20dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="33dp"
+        android:layout_below="@+id/CName"
+        android:layout_toLeftOf="@+id/FindButton"
+        android:layout_marginEnd="16dp" />
 
 </RelativeLayout>
 
